@@ -10,7 +10,10 @@
 <body>
   <header>
     <h1>華容放曹：關羽吃寶箱（最短路徑 BFS）＋ 曹操脫逃（高效 A*）</h1>
-    <p class="subtitle">棋盤 4×7；棋子：C(2×2)、G/H(2×1)、V(1×2)、S(1×1)、.(空)、X(寶箱若被其他棋子遮蓋，該格用小寫表示，如c、g/h、v、s)。頁面最後更新時間：<span id="lastUpdated"></span>｜版本：<span id="version"></span></p>
+    <p class="subtitle">
+      棋盤 4×7；棋子：C(2×2)、G/H(2×1)、V(1×2)、S(1×1)、.(空)、X(寶箱/可覆蓋)。頁面最後更新時間：
+      <span id="lastUpdated"></span>｜版本：<span id="version"></span>
+    </p>
   </header>
 
   <section class="input-controls">
@@ -21,7 +24,8 @@
   </section>
 
   <section class="paste-area">
-    <textarea id="mapText" rows="8" placeholder="請貼上 7 行、每行 4 字元的棋盤文字（或載入範例）"></textarea>
+    <textarea id="mapText" rows="8"
+      placeholder="請貼上 7 行、每行 4 字元的棋盤文字（或載入範例）"></textarea>
   </section>
 
   <section class="status">
@@ -50,7 +54,39 @@
     <ol id="stepList"></ol>
   </section>
 
-  <script>window.__APP_VERSION__='v1.0.1';</script>
+  <!-- 棋子規則（含小寫覆蓋寶箱說明） -->
+  <section class="rules">
+    <h3>棋子規則</h3>
+    <ul>
+      <li>棋盤尺寸固定為 4×7（寬 4 欄、高 7 列）。</li>
+      <li>棋子大小：
+        <ul>
+          <li>曹操（C）：2×2（僅 1 個）</li>
+          <li>關羽（G）：2×1 水平（僅 1 個）</li>
+          <li>橫將（H）：2×1 水平（通常 2 個）</li>
+          <li>直將（V）：1×2 垂直（通常 6 個）</li>
+          <li>兵卒（S）：1×1（通常 4 個）</li>
+          <li>空格（.）：1×1（固定 2 個）</li>
+          <li>寶箱（X）：目標位置</li>
+        </ul>
+      </li>
+      <li><strong>寶箱被遮蓋時用小寫標記</strong>：若有棋子覆蓋在寶箱格上，該格以棋子的小寫表示：
+        <ul>
+          <li><code>c</code> → 曹操覆蓋寶箱</li>
+          <li><code>g</code> / <code>h</code> → 關羽或橫將覆蓋寶箱</li>
+          <li><code>v</code> → 直將覆蓋寶箱</li>
+          <li><code>s</code> → 兵卒覆蓋寶箱</li>
+        </ul>
+      </li>
+      <li>解析器會將小寫覆蓋轉換為對應棋子的<strong>大寫</strong>並保留寶箱位置以供判斷。</li>
+      <li>移動合法性：目標區域必須是<strong>空格</strong>；禁止與其他棋子重疊（同字母不同棋子不得穿越）。</li>
+    </ul>
+  </section>
+
+  <script>
+    window.__APP_VERSION__ = 'v1.0.3';
+    window.__BUILD_TIME__  = '2026-01-01 08:18:33 GMT+8';
+  </script>
   <script src="app.js"></script>
 </body>
 </html>
