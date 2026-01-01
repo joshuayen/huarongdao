@@ -1,5 +1,5 @@
 
-// solver-worker.js (高效能合併版 v1.0.4)
+// solver-worker.js (高效能合併版 v1.0.6)
 (function(){
 'use strict';
 const NL=String.fromCharCode(10), CR=String.fromCharCode(13); let ROWS=7, COLS=4;
