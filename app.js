@@ -27,57 +27,27 @@ var versionEl=document.getElementById('version');
 
 var ROWS=7,COLS=4; var replayStates=[]; var replayIndex=0; var latestSolveMeta=null;
 
-// 固定顯示打包時間與版本（不再使用當下時間）
+// 固定顯示打包時間與版本
 try{
   var buildTime = window.__BUILD_TIME__ || '未設定';
-  var version   = window.__APP_VERSION__ || 'v1.0.3';
+  var version   = window.__APP_VERSION__ || 'v1.0.4';
   lastUpdated.textContent = buildTime;
   versionEl.textContent   = version;
 }catch(e){}
 
-// NL-safe split
 var NL=String.fromCharCode(10);
-function splitLines(s){
-  var CR=String.fromCharCode(13);
-  return (s||'').split(CR).join('')
-    .split(NL).map(function(x){return x.trim();}).filter(function(x){return x.length;});
-}
+function splitLines(s){ var CR=String.fromCharCode(13); return (s||'').split(CR).join('').split(NL).map(function(x){return x.trim();}).filter(function(x){return x.length;}); }
 
-function setBusy(on){
-  mapText.disabled=on; mapFile.disabled=on; btnLoadExample.disabled=on;
-  btnSolveChest.disabled=on; btnSolveExit.disabled=on;
-  btnReplay.disabled=on||!replayStates.length; btnPrev.disabled=on||!replayStates.length;
-  btnNext.disabled=on||!replayStates.length; btnDownload.disabled=on||!replayStates.length;
-  if(on) boardGrid.classList.add('is-busy'); else boardGrid.classList.remove('is-busy');
-}
-function setStatus(text,isBusy){
-  statusMsg.textContent=text;
-  if(isBusy){ var s=document.createElement('span'); s.className='spinner'; statusMsg.insertBefore(s,statusMsg.firstChild); statusMsg.insertBefore(document.createTextNode(' '), s.nextSibling); }
-}
+function setBusy(on){ mapText.disabled=on; mapFile.disabled=on; btnLoadExample.disabled=on; btnSolveChest.disabled=on; btnSolveExit.disabled=on; btnReplay.disabled=on||!replayStates.length; btnPrev.disabled=on||!replayStates.length; btnNext.disabled=on||!replayStates.length; btnDownload.disabled=on||!replayStates.length; if(on) boardGrid.classList.add('is-busy'); else boardGrid.classList.remove('is-busy'); }
+function setStatus(text,isBusy){ statusMsg.textContent=text; if(isBusy){ var s=document.createElement('span'); s.className='spinner'; statusMsg.insertBefore(s,statusMsg.firstChild); statusMsg.insertBefore(document.createTextNode(' '), s.nextSibling); } }
 
-function renderBoardFromLines(lines){
-  ROWS=lines.length; COLS=lines[0].length;
-  boardGrid.innerHTML='';
-  boardGrid.style.gridTemplateColumns='repeat('+COLS+', var(--cell-size))';
-  boardGrid.style.gridTemplateRows='repeat('+ROWS+', var(--cell-size))';
-  for(var r=0;r<ROWS;r++){
-    for(var c=0;c<COLS;c++){
-      var ch=lines[r][c];
-      var cell=document.createElement('div');
-      var kind=ch; if(ch==='.') kind='dot'; if(ch==='x') kind='X';
-      cell.className='cell c-'+kind;
-      cell.textContent=(kind==='dot'?'.':kind.toUpperCase());
-      boardGrid.appendChild(cell);
-    }
-  }
-  boardSizeEl.textContent=COLS+'x'+ROWS;
-}
+function renderBoardFromLines(lines){ ROWS=lines.length; COLS=lines[0].length; boardGrid.innerHTML=''; boardGrid.style.gridTemplateColumns='repeat('+COLS+', var(--cell-size))'; boardGrid.style.gridTemplateRows='repeat('+ROWS+', var(--cell-size))'; for(var r=0;r<ROWS;r++){ for(var c=0;c<COLS;c++){ var ch=lines[r][c]; var cell=document.createElement('div'); var kind=ch; if(ch==='.') kind='dot'; if(ch==='x') kind='X'; cell.className='cell c-'+kind; cell.textContent=(kind==='dot'?'.':kind.toUpperCase()); boardGrid.appendChild(cell); } } boardSizeEl.textContent=COLS+'x'+ROWS; }
 
 btnReplay.addEventListener('click',function(){ if(!replayStates.length) return; btnReplay.disabled=true; var i=0;(function step(){ if(i>=replayStates.length){ btnReplay.disabled=false; return;} replayIndex=i; var st=replayStates[i]; renderBoardFromLines(st); mapText.value=st.join(NL); replayPos.textContent=replayIndex+'/'+(replayStates.length-1); i++; setTimeout(step,350);} )(); });
 btnPrev.addEventListener('click',function(){ if(!replayStates.length) return; replayIndex=Math.max(0,replayIndex-1); var st=replayStates[replayIndex]; renderBoardFromLines(st); mapText.value=st.join(NL); replayPos.textContent=replayIndex+'/'+(replayStates.length-1); });
 btnNext.addEventListener('click',function(){ if(!replayStates.length) return; replayIndex=Math.min(replayStates.length-1,replayIndex+1); var st=replayStates[replayIndex]; renderBoardFromLines(st); mapText.value=st.join(NL); replayPos.textContent=replayIndex+'/'+(replayStates.length-1); });
 
-btnDownload.addEventListener('click',function(){ if(!latestSolveMeta) return; var meta=latestSolveMeta; var now=new Date(); var stamp=now.toLocaleString('zh-TW'); var author='JoshuaYen'; var ver=(window.__APP_VERSION__||'v1.0.3'); var movesText=''; movesText+='模式: '+(meta.mode==='CHEST'?'BFS-關羽吃寶箱':'A*-曹操脫逃')+NL; movesText+='步數: '+meta.steps.length+NL; movesText+='效能(秒): 讀檔 '+meta.metrics.secLoad.toFixed(2)+'s, 求解 '+meta.metrics.secSolve.toFixed(2)+'s, 總計 '+meta.metrics.secTotal.toFixed(2)+'s'+NL; movesText+='節點: 展開 '+meta.metrics.nodesExpanded+', 訪問 '+meta.metrics.statesVisited+', 峰值 '+meta.metrics.peakQueue+NL+NL; for(var i=0;i<meta.steps.length;i++){ movesText+=((i+1)+'. '+meta.steps[i][0]+meta.steps[i][1]+NL);} movesText+=NL+'作者: '+author+'  版本: '+ver+'  更新時間: '+stamp+NL; var blob1=new Blob([movesText],{type:'text/plain;charset=utf-8'}); var a1=document.createElement('a'); a1.href=URL.createObjectURL(blob1); a1.download='solution_moves.txt'; a1.click(); var pathText=''; pathText+='模式: '+(meta.mode==='CHEST'?'BFS-關羽吃寶箱':'A*-曹操脫逃')+NL; pathText+='步數: '+meta.steps.length+NL; pathText+='效能(秒): 讀檔 '+meta.metrics.secLoad.toFixed(2)+'s, 求解 '+meta.metrics.secSolve.toFixed(2)+'s, 總計 '+meta.metrics.secTotal.toFixed(2)+'s'+NL; pathText+='節點: 展開 '+meta.metrics.nodesExpanded+', 訪問 '+meta.metrics.statesVisited+', 峰值 '+meta.metrics.peakQueue+NL+NL; for(var j=0;j<meta.states.length;j++){ pathText+='Step '+j+':'+NL; for(var r=0;r<meta.states[j].length;r++){ pathText+=meta.states[j][r]+NL;} pathText+=NL;} pathText+=NL+'作者: '+author+'  版本: '+ver+'  更新時間: '+stamp+NL; var blob2=new Blob([pathText],{type:'text/plain;charset=utf-8'}); var a2=document.createElement('a'); a2.href=URL.createObjectURL(blob2); a2.download='solution_path.txt'; a2.click(); });
+btnDownload.addEventListener('click',function(){ if(!latestSolveMeta) return; var meta=latestSolveMeta; var now=new Date(); var stamp=now.toLocaleString('zh-TW'); var author='JoshuaYen'; var ver=(window.__APP_VERSION__||'v1.0.4'); var movesText=''; movesText+='模式: '+(meta.mode==='CHEST'?'BFS-關羽吃寶箱':'A*-曹操脫逃')+NL; movesText+='步數: '+meta.steps.length+NL; movesText+='效能(秒): 讀檔 '+meta.metrics.secLoad.toFixed(2)+'s, 求解 '+meta.metrics.secSolve.toFixed(2)+'s, 總計 '+meta.metrics.secTotal.toFixed(2)+'s'+NL; movesText+='節點: 展開 '+meta.metrics.nodesExpanded+', 訪問 '+meta.metrics.statesVisited+', 峰值 '+meta.metrics.peakQueue+NL+NL; for(var i=0;i<meta.steps.length;i++){ movesText+=((i+1)+'. '+meta.steps[i][0]+meta.steps[i][1]+NL);} movesText+=NL+'作者: '+author+'  版本: '+ver+'  更新時間: '+stamp+NL; var blob1=new Blob([movesText],{type:'text/plain;charset=utf-8'}); var a1=document.createElement('a'); a1.href=URL.createObjectURL(blob1); a1.download='solution_moves.txt'; a1.click(); var pathText=''; pathText+='模式: '+(meta.mode==='CHEST'?'BFS-關羽吃寶箱':'A*-曹操脫逃')+NL; pathText+='步數: '+meta.steps.length+NL; pathText+='效能(秒): 讀檔 '+meta.metrics.secLoad.toFixed(2)+'s, 求解 '+meta.metrics.secSolve.toFixed(2)+'s, 總計 '+meta.metrics.secTotal.toFixed(2)+'s'+NL; pathText+='節點: 展開 '+meta.metrics.nodesExpanded+', 訪問 '+meta.metrics.statesVisited+', 峰值 '+meta.metrics.peakQueue+NL+NL; for(var j=0;j<meta.states.length;j++){ pathText+='Step '+j+':'+NL; for(var r=0;r<meta.states[j].length;r++){ pathText+=meta.states[j][r]+NL;} pathText+=NL;} pathText+=NL+'作者: '+author+'  版本: '+ver+'  更新時間: '+stamp+NL; var blob2=new Blob([pathText],{type:'text/plain;charset=utf-8'}); var a2=document.createElement('a'); a2.href=URL.createObjectURL(blob2); a2.download='solution_path.txt'; a2.click(); });
 
 var DEFAULT_EXAMPLE_URL='example/map.txt'; var EXAMPLE_FALLBACK=['CCSV','CCSV','VGGS','VSHH','X.HH','VVVV','VVVV'].join(NL);
 function loadDefaultExample(){ if(!window.fetch){ mapText.value=EXAMPLE_FALLBACK; statusMsg.textContent='已載入內建範例（環境不支援 fetch）。'; return;} fetch(DEFAULT_EXAMPLE_URL).then(function(resp){return resp.text();}).then(function(txt){ mapText.value=txt; statusMsg.textContent='已載入預設範例 example/map.txt。'; }).catch(function(){ mapText.value=EXAMPLE_FALLBACK; statusMsg.textContent='讀取 example/map.txt 失敗，已載入內建範例。'; }); }
