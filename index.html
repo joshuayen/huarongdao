@@ -1,25 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>華容放曹 — 合併版（BFS＋A*）</title>
-  style.css
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <h1>華容放曹：關羽吃寶箱（最短路徑 BFS）＋ 曹操脫逃（高效 A*）</h1>
     <p class="subtitle">
-      棋盤 4×7；棋子：C(2×2)曹操、G/H(2×1)關羽/橫將、V(1×2)直將、S(1×1)卒、.(空)、X(寶箱)。<br>
-      <strong>寶箱若被棋子遮蔽，該格以小寫表示：</strong> c(C)/g(G)/h(H)/v(V)/s(S)。<br/>
+      棋盤 4×7；棋子：C(2×2)曹操、G/H(2×1)關羽/橫將、V(1×2)直將、S(1×1)卒、.(空)、X(寶箱)。)。<br
+      <strong>寶箱若被棋子遮蓋，該格以小寫表示：</strong> c(C)／g(G)／h(H)／v(V)／s(S)。<br/>
       最後更新時間：2026-01-01 16:29:52｜版本：v1.0.6
     </p>
   </header>
 
   <section class="input-controls">
-    <button id="btnLoadExample">載入範例</button>
-    <p>檢視https://raw.githubusercontent.com/joshuayen/huarongdao/main/example.jpg範例圖片</a></p>
+    <button id="btnLoadExample">載入範例</button><p>檢視<a href=https://raw.githubusercontent.com/joshuayen/huarongdao/main/example.jpg>範例圖片</a></p>
     <input id="mapFile" type="file" accept=".txt" />
     <button id="btnSolveChest">開始求解（BFS：關羽吃寶箱）</button>
     <button id="btnSolveExit">開始求解（A*：曹操脫逃）</button>
@@ -35,8 +33,8 @@
     <div class="meta">
       <div>棋盤尺寸：<span id="boardSize">—</span></div>
       <div>步數：<span id="stepCount">—</span></div>
-      <div>效能（秒）：<span id="perfLoad">讀檔—</span>/<span id="perfSolve">求解—</span>/<span id="perfTotal">總計—</span></div>
-      <div>節點：<span id="nodesExpanded">展開—</span>/<span id="statesVisited">訪問—</span>/<span id="peakQueue">峰值—</span></div>
+      <div>效能（秒）：<span id="perfLoad">讀檔—</span>／<span id="perfSolve">求解—</span>／<span id="perfTotal">總計—</span></div>
+      <div>節點：<span id="nodesExpanded">展開—</span>／<span id="statesVisited">訪問—</span>／<span id="peakQueue">峰值—</span></div>
     </div>
   </section>
 
@@ -52,20 +50,15 @@
       <button id="btnDownload" disabled>下載解答（TXT）</button>
       <span id="replayPos">—/—</span>
     </div>
-
     <h4>步驟</h4>
     <ol id="stepList"></ol>
-
-    <!-- 新增：座標版步驟（1‑based） -->
-    <h4>座標（1‑based）：moveTo(x,y,x1,y1)</h4>
-    <ol id="coordList"></ol>
   </section>
 
-  <!-- 內嵌常數僅供系統使用（TXT 尾註等）；副標顯示採固定文字或打包時模板注入 -->
   <script>
+    // 內嵌常數僅供系統使用（TXT 尾註等）；頁面副標顯示採你指定的固定文字
     window.__APP_VERSION__ = 'v1.0.7';
     window.__BUILD_TIME__  = '2026-01-01 16:41:05 (台灣時間 GMT+8)';
   </script>
-  app.js</script>
+  <script src="app.js"></script>
 </body>
 </html>
