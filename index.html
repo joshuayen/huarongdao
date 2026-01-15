@@ -45,3 +45,28 @@
     <div id="boardGrid" class="grid"></div>
   </section>
 
+  <section class="replay">
+    <div class="replay-controls">
+      <button id="btnReplay" disabled>逐步回放</button>
+      <button id="btnPrev" disabled>上一步</button>
+      <button id="btnNext" disabled>下一步</button>
+      <button id="btnDownload" disabled>下載解答（TXT）</button>
+      <span id="replayPos">—/—</span>
+    </div>
+
+    <h4>步驟</h4>
+    <ol id="stepList"></ol>
+
+    <!-- ✅ 新增：座標版步驟（1‑based） -->
+    <h4>座標（1‑based）：moveTo(x,y,x1,y1)</h4>
+    <ol id="coordList"></ol>
+  </section>
+
+  <!-- 供系統使用的常數：由 app.js 注入到頁面（副標即讀取這兩個常數） -->
+  <script>
+    window.__APP_VERSION__ = 'v1.0.7';
+    window.__BUILD_TIME__  = '2026-01-01 16:41:05 (台灣時間 GMT+8)';
+  </script>
+  app.js</script>
+</body>
+</html>
