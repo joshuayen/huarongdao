@@ -1,64 +1,88 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>華容放曹 — 合併版（BFS＋A*）</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>華容道</title>
+<style>
+body{font-family:"Noto Serif TC","PingFang TC","Microsoft JhengHei",serif;background:#1a1a1a;color:#e0d8c8;padding:20px;line-height:1.9;font-size:18px;max-width:600px;margin:0 auto}
+h1{font-size:32px;text-align:center;margin:60px 0 10px;color:#c9a96e;letter-spacing:4px}
+.subtitle{text-align:center;color:#888;font-size:14px;margin-bottom:50px}
+hr{border:none;border-top:1px solid #444;margin:30px 0}
+p{text-indent:2em;margin:0.8em 0}
+.ending{text-align:center;color:#888;font-style:italic;margin:40px 0;line-height:2.2}
+.toc{margin:50px 0;padding:0}
+.toc h2{font-size:20px;color:#c9a96e;margin-bottom:20px;text-align:center}
+.toc a{display:block;color:#e0d8c8;text-decoration:none;padding:8px 0;border-bottom:1px solid #333}
+.toc a:hover{color:#c9a96e}
+</style>
 </head>
 <body>
-  <header>
-    <h1>華容放曹：關羽吃寶箱（最短路徑 BFS）＋ 曹操脫逃（高效 A*）</h1>
-    <p class="subtitle">
-      棋盤 4×7；棋子：C(2×2)曹操、G/H(2×1)關羽/橫將、V(1×2)直將、S(1×1)卒、.(空)、X(寶箱)。)。<br
-      <strong>寶箱若被棋子遮蓋，該格以小寫表示：</strong> c(C)／g(G)／h(H)／v(V)／s(S)。<br/>
-      最後更新時間：2026-01-01 16:29:52｜版本：v1.0.6
-    </p>
-  </header>
 
-  <section class="input-controls">
-    <button id="btnLoadExample">載入範例</button><p>檢視<a href=https://raw.githubusercontent.com/joshuayen/huarongdao/main/example.jpg>範例圖片</a></p>
-    <input id="mapFile" type="file" accept=".txt" />
-    <button id="btnSolveChest">開始求解（BFS：關羽吃寶箱）</button>
-    <button id="btnSolveExit">開始求解（A*：曹操脫逃）</button>
-  </section>
+<h1>華容道</h1>
+<div class="subtitle">一個關於活下去的故事</div>
 
-  <section class="paste-area">
-    <textarea id="mapText" rows="8"
-      placeholder="請貼上 7 行、每行 4 字元的棋盤文字（或載入範例）"></textarea>
-  </section>
+<hr>
 
-  <section class="status">
-    <div id="statusMsg">尚未載入盤面。</div>
-    <div class="meta">
-      <div>棋盤尺寸：<span id="boardSize">—</span></div>
-      <div>步數：<span id="stepCount">—</span></div>
-      <div>效能（秒）：<span id="perfLoad">讀檔—</span>／<span id="perfSolve">求解—</span>／<span id="perfTotal">總計—</span></div>
-      <div>節點：<span id="nodesExpanded">展開—</span>／<span id="statesVisited">訪問—</span>／<span id="peakQueue">峰值—</span></div>
-    </div>
-  </section>
+<p>世人皆知華容道。</p>
 
-  <section class="board">
-    <div id="boardGrid" class="grid"></div>
-  </section>
+<p>那是建安十三年的事了。曹操赤壁兵敗，倉皇北逃，行至華容小道，泥濘沒膝，人馬相踐。關雲長提刀立於道口，念昔日恩義，放了曹操一條生路。</p>
 
-  <section class="replay">
-    <div class="replay-controls">
-      <button id="btnReplay" disabled>逐步回放</button>
-      <button id="btnPrev" disabled>上一步</button>
-      <button id="btnNext" disabled>下一步</button>
-      <button id="btnDownload" disabled>下載解答（TXT）</button>
-      <span id="replayPos">—/—</span>
-    </div>
-    <h4>步驟</h4>
-    <ol id="stepList"></ol>
-  </section>
+<p>千古美談。千古憾事。</p>
 
-  <script>
-    // 內嵌常數僅供系統使用（TXT 尾註等）；頁面副標顯示採你指定的固定文字
-    window.__APP_VERSION__ = 'v1.0.7';
-    window.__BUILD_TIME__  = '2026-01-01 16:41:05 (台灣時間 GMT+8)';
-  </script>
-  <script src="app.js"></script>
+<p>但很少有人知道，華容道不只是一個地名。</p>
+
+<p>它是一道棋。一道困局。一個永遠解不完的殘局——每一步都有無數種走法，每一種走法都會導向截然不同的結局。</p>
+
+<p>歷史是一盤已經下完的棋。落子成定，覆水難收。</p>
+
+<p>可如果——</p>
+
+<p>如果有人記得這盤棋的每一步，然後被扔回了開局呢？</p>
+
+<p>如果那個人不是帝王將相，不是英雄豪傑，只是兩個平凡到不能再平凡的老頭子——一個守了四十年廟的廟公，一個看了一輩子病的中醫呢？</p>
+
+<p>他們沒有絕世武功，沒有經天緯地之才，沒有主角光環。</p>
+
+<p>他們有的只是七十年的人生閱歷、一副看透了人心的老花眼，以及——</p>
+
+<p>活下去的執念。</p>
+
+<p>這是一個關於活下去的故事。</p>
+
+<p>不是英雄改天換地的壯舉。是兩個普通人在命運的棋盤上，用盡一切手段，只為了多走一步、再多走一步。</p>
+
+<p>每一步都是華容道。</p>
+
+<p>每一步都是生與死的抉擇。</p>
+
+<div class="ending">
+中平元年。冀州。太行山。<br>
+一場席捲天下的風暴即將降臨。<br>
+而風暴的中心，站著兩個不該出現在這裡的人。
+</div>
+
+<hr>
+
+<div class="toc">
+<h2>目錄</h2>
+<a href="3k01.html">第一章　死得其所</a>
+<a href="3k02.html">第二章　借屍還魂</a>
+<a href="3k03.html">第三章　盤點家底</a>
+<a href="3k04.html">第四章　問診</a>
+<a href="3k05.html">第五章　改主意</a>
+<a href="3k06.html">第六章　蒸餾</a>
+<a href="3k07.html">第七章　唐周</a>
+<a href="3k08.html">第八章　太行</a>
+<a href="3k09.html">第九章　學堂</a>
+<a href="3k10.html">第十章　南陽火起</a>
+<a href="3k11.html">第十一章　瘟疫</a>
+<a href="3k12.html">第十二章　北上</a>
+<a href="3k13.html">第十三章　重逢</a>
+<a href="3k14.html">第十四章　軍醫</a>
+<a href="3k15.html">第十五章　練兵</a>
+<a href="3k16.html">第十六章　盧植</a>
+</div>
+
 </body>
 </html>
