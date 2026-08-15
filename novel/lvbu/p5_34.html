@@ -124,4 +124,15 @@
 <hr>
 <hr>
 <nav class="chapter-nav"><a href="p5_33.html">← 上一頁</a><a href="index.html">目錄</a><a href="p5_35.html">下一頁 →</a></nav>
+<script>
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft') {
+    var prev = "p5_33.html";
+    if (prev) window.location.href = prev;
+  } else if (e.key === 'ArrowRight') {
+    var next = "p5_35.html";
+    if (next) window.location.href = next;
+  }
+});
+</script>
 </body></html>

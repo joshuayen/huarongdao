@@ -121,4 +121,15 @@
 <p>張角睜著眼睛。沒有睡。</p>
 <hr>
 <nav class="chapter-nav"><a href="p1_06.html">← 上一頁</a><a href="index.html">目錄</a><a href="p1_08.html">下一頁 →</a></nav>
+<script>
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft') {
+    var prev = "p1_06.html";
+    if (prev) window.location.href = prev;
+  } else if (e.key === 'ArrowRight') {
+    var next = "p1_08.html";
+    if (next) window.location.href = next;
+  }
+});
+</script>
 </body></html>

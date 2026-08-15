@@ -137,4 +137,15 @@
 <p>站起來。付了水錢。走了。</p>
 <hr>
 <nav class="chapter-nav"><a href="p2_10.html">← 上一頁</a><a href="index.html">目錄</a><a href="p2_12.html">下一頁 →</a></nav>
+<script>
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft') {
+    var prev = "p2_10.html";
+    if (prev) window.location.href = prev;
+  } else if (e.key === 'ArrowRight') {
+    var next = "p2_12.html";
+    if (next) window.location.href = next;
+  }
+});
+</script>
 </body></html>

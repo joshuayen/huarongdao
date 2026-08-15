@@ -198,4 +198,15 @@
 <p>**第一部　完。**</p>
 <hr>
 <nav class="chapter-nav"><a href="p1_07.html">← 上一頁</a><a href="index.html">目錄</a><a href="p2_09.html">下一頁 →</a></nav>
+<script>
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft') {
+    var prev = "p1_07.html";
+    if (prev) window.location.href = prev;
+  } else if (e.key === 'ArrowRight') {
+    var next = "p2_09.html";
+    if (next) window.location.href = next;
+  }
+});
+</script>
 </body></html>

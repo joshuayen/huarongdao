@@ -137,4 +137,15 @@
 <p>腳步踩碎了霜，一下一下，往西。天邊還是黑的，但他在走了。</p>
 <hr>
 <nav class="chapter-nav"><span style="color:#666">—</span><a href="index.html">目錄</a><a href="p1_02.html">下一頁 →</a></nav>
+<script>
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft') {
+    var prev = null;
+    if (prev) window.location.href = prev;
+  } else if (e.key === 'ArrowRight') {
+    var next = "p1_02.html";
+    if (next) window.location.href = next;
+  }
+});
+</script>
 </body></html>

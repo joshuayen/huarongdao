@@ -172,4 +172,15 @@
 <p>四個人的腳步聲混在一起，踩在官道的凍土上，悶響。天亮了。風從北邊吹過來，冷的，但不頂頭。</p>
 <hr>
 <nav class="chapter-nav"><a href="p2_11.html">← 上一頁</a><a href="index.html">目錄</a><a href="p2_13.html">下一頁 →</a></nav>
+<script>
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft') {
+    var prev = "p2_11.html";
+    if (prev) window.location.href = prev;
+  } else if (e.key === 'ArrowRight') {
+    var next = "p2_13.html";
+    if (next) window.location.href = next;
+  }
+});
+</script>
 </body></html>
