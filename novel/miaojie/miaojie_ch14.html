@@ -15,12 +15,23 @@ body {
   max-width: 700px;
   margin: 0 auto;
 }
-h1 {
-  font-size: 28px;
+/* 部標題：比章標題大，居中，像電子書的部扉頁 */
+.part-title {
   text-align: center;
-  margin: 60px 0 20px 0;
+  font-size: 32px;
   color: #c9a96e;
+  margin: 60px 0 10px 0;
+  letter-spacing: 0.2em;
+  font-weight: bold;
+}
+/* 章標題 */
+h1 {
+  font-size: 26px;
+  text-align: center;
+  margin: 10px 0 40px 0;
+  color: #a0926b;
   letter-spacing: 0.1em;
+  font-weight: normal;
 }
 hr {
   border: none;
@@ -31,22 +42,17 @@ p {
   text-indent: 2em;
   margin: 0.8em 0;
 }
-/* 部標題：模擬電子書的部扉頁 */
-.part-title {
-  text-align: center;
-  font-size: 20px;
-  color: #a0926b;
-  margin: 20px 0 40px 0;
-  letter-spacing: 0.15em;
-}
-.part-title strong {
-  font-weight: normal;
-  font-size: 22px;
-  color: #c9a96e;
-}
-/* 第一部完/第二部完 等結構標記 */
 p strong {
   color: #c9a96e;
+}
+blockquote {
+  margin: 1.5em 2em;
+  padding-left: 1em;
+  border-left: 3px solid #444;
+  color: #b0a890;
+}
+blockquote p {
+  text-indent: 0;
 }
 /* 導航列 */
 .chapter-nav {
@@ -69,6 +75,7 @@ p strong {
 </style>
 </head>
 <body>
+
 <h1>第十四章　人情</h1>
 <nav class="chapter-nav"><a href="miaojie_ch13.html">← 上一頁</a><a href="index.html">目錄</a><a href="miaojie_ch15.html">下一頁 →</a></nav>
 <hr>
